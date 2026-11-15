@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>바이브 코딩(Vibe Coding)의 엔지니어링 분석과 엔터프라이즈 도입 전략</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- 16:9 Presentation Viewport Scaler -->
+  <div id="presentation-wrapper">
+
+    <!-- Top Progress Bar -->
+    <div class="progress-container">
+      <div id="progress-bar" class="progress-bar"></div>
+    </div>
+
+    <!-- Slides Deck Container -->
+    <div class="slides-deck">
+
+      <!-- ===================================================================
+           Slide 1: 표지 (Title & Context)
+           =================================================================== -->
+      <section class="slide active" id="slide-1">
+        <div class="hero-layout">
+          <div class="hero-text-side">
+            <span class="hero-badge">TR-2026-AI-003 • TECHNICAL REPORT KEYNOTE</span>
+            <h1 class="hero-title">바이브 코딩<br>(Vibe Coding)의<br>엔지니어링 분석</h1>
+            <p class="hero-desc">
+              코드 작성을 넘어 '의도(Intent) 기반 자율 소프트웨어 합성'과<br>
+              엔터프라이즈 가드레일 거버넌스 아키텍처
+            </p>
+            <div class="hero-meta-box">
+              <div class="meta-item">
+                <div class="label">Presenter</div>
+                <div class="val">시니어 AI 엔지니어 / 아키텍트</div>
+              </div>
+              <div class="meta-item">
+                <div class="label">Classification</div>
+                <div class="val">Software 3.0 & Engineering Governance</div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-visual-side">
+            <div class="clay-image-frame mint-glow">
+              <img src="assets/clay_robot_hero.jpg" alt="3D Clay Robot Hero Illustration">
+            </div>
+          </div>
+        </div>
+
+        <aside class="speaker-notes" style="display:none;">
+          <p><strong>[Slide 1 발표자 대본]</strong></p>
+          <p>안녕하십니까. 오늘 발표는 최근 테크 업계를 가장 뜨겁게 달구고 있는 '바이브 코딩'을 시니어 엔지니어의 시각에서 냉정하게 해부하는 자리입니다.</p>
+          <p>단순한 개인의 생산성 팁을 넘어, 이것이 소프트웨어 공학의 아키텍처를 어떻게 근본적으로 재편하고 있는지, 그리고 우리 조직이 이를 안전하게 도입하기 위해 어떤 4단계 가드레일을 갖춰야 하는지
+            핵심 위주로 명확히 전달해 드리겠습니다.</p>
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           Slide 2: 본질 정의 (Software 3.0)
+           =================================================================== -->
+      <section class="slide" id="slide-2">
+        <div class="slide-header">
+          <span class="slide-tag">PARADIGM SHIFT</span>
+          <h2 class="slide-title">본질 정의: Software 3.0과 엔지니어링 패러다임</h2>
+          <p class="slide-subtitle">"구현(Implementation)은 AI에게 수렴하고, 엔지니어링은 명세와 검증으로 진화한다"</p>
+        </div>
+
+        <div class="content-grid-2col">
+          <div class="clay-card">
+            <h3 style="font-size:22px; font-weight:800; color:var(--accent-mint); margin-bottom:18px;">소프트웨어 진화 3단계</h3>
+            <div class="code-box" style="margin-bottom:16px;">
+              <span class="highlight">[Software 1.0]</span> 인간이 논리와 문법을 직접 작성 (C, Java, Python)<br>
+              <span class="highlight">[Software 2.0]</span> 신경망 설계 후 데이터로 가중치 학습 (Deep Learning)<br>
+              <span class="highlight">[Software 3.0]</span> 자연어 의도(Intent)가 코드가 되고 LLM 에이전트가 컴파일러가 됨
+            </div>
+            <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">
+              <strong>바이브 코딩의 공학적 정의:</strong> 고수준의 자연어 명세(Specification)를 입력받아 AI 에이전트가 코드베이스를 합성하고, 런타임 에러를 자가
+              치유(Self-Healing)하며 완성하는 자율 개발 패러다임.
+            </p>
+          </div>
+
+          <div class="clay-card blue-glow">
+            <h3 style="font-size:22px; font-weight:800; color:var(--accent-blue); margin-bottom:18px;">엔지니어 역할의 근본적 전환
+            </h3>
+            <div style="display:flex; flex-direction:column; gap:16px; margin-top:20px;">
+              <div
+                style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); padding:16px 20px; border-radius:16px;">
+                <div style="font-size:13px; color:var(--accent-red); font-weight:700;">AS-IS (과거의 역할)</div>
+                <div style="font-size:18px; font-weight:700; color:#fff; margin-top:4px;">컴퓨터 언어 번역가 (Code Writer)</div>
+                <p style="font-size:14px; color:var(--text-secondary); margin-top:4px;">문법 암기, 오타 디버깅, 라이브러리 스펙 검색에 80%
+                  이상의 시간 소모</p>
+              </div>
+
+              <div
+                style="background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.3); padding:16px 20px; border-radius:16px;">
+                <div style="font-size:13px; color:var(--accent-mint); font-weight:700;">TO-BE (바이브 코딩 시대)</div>
+                <div style="font-size:18px; font-weight:700; color:#fff; margin-top:4px;">시스템 아키텍트 & 디렉터 (System
+                  Evaluator)</div>
+                <p style="font-size:14px; color:var(--text-secondary); margin-top:4px;">시스템 경계 설정, 명세 작성, 그리고 AI 결과물의 정밀
+                  검증에 집중</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="speaker-notes" style="display:none;">
+          <p><strong>[Slide 2 발표자 대본]</strong></p>
+          <p>과거 카파시가 딥러닝을 Software 2.0이라 명명했듯, 바이브 코딩은 진정한 의미의 Software 3.0입니다. 가장 인기 있는 프로그래밍 언어가 '자연어'가 되었습니다.</p>
+          <p>문법을 외우고 타이핑하는 데 들던 인지 부하는 이제 0으로 수렴하고 있습니다. 엔지니어의 역할은 저수준 코더에서 시스템의 의도와 제약조건을 설정하는 '총괄 디렉터'로 완전히 도약했습니다.
+          </p>
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           Slide 3: 아키텍처 비교 (자가치유 루프)
+           =================================================================== -->
+      <section class="slide" id="slide-3">
+        <div class="slide-header">
+          <span class="slide-tag">SYSTEM ARCHITECTURE</span>
+          <h2 class="slide-title">시스템 아키텍처: 전통적 개발 vs 바이브 코딩</h2>
+          <p class="slide-subtitle">"인간 중심의 단일 병목 루프에서 '인간 감독 하의 자율 에이전트 루프'로"</p>
+        </div>
+
+        <div class="content-grid-2col">
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="clay-card">
+              <div style="font-size:13px; color:var(--accent-red); font-weight:700; margin-bottom:8px;">[전통적 개발 프로세스: 인간
+                단일 병목]</div>
+              <div class="code-box" style="font-size:14px;">
+                인간 (설계) ➔ 인간 (키보드 코딩) ➔ 컴파일/런타임 ➔ 에러 로그 ➔ 인간 (디버깅/검색)
+              </div>
+              <p style="font-size:14px; color:var(--text-muted); margin-top:8px;">※ 모든 단계에서 인간의 타이핑과 검색이 물리적 병목으로 작용함.
+              </p>
+            </div>
+
+            <div class="clay-card mint-glow">
+              <div style="font-size:13px; color:var(--accent-mint); font-weight:700; margin-bottom:8px;">[바이브 코딩: 폐루프 자가
+                치유(Self-Healing)]</div>
+              <div class="code-box" style="font-size:14px; color:#6ee7b7;">
+                인간 (의도/제약 지시)<br>
+                └➔ [Context Engine] ➔ [LLM 추론] ➔ [셸/파일 I/O]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;▲&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;└───── (stderr 로그 역주입 자가 치유) ──────┘
+              </div>
+              <p style="font-size:14px; color:var(--text-secondary); margin-top:8px;">
+                AI가 컴파일 에러를 수집해 스스로 코드를 다시 수정하고 빌드하는 무인 사이클 완결.
+              </p>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:center; align-items:center;">
+            <div class="clay-image-frame mint-glow" style="height:100%; max-height:480px;">
+              <img src="assets/clay_self_healing.jpg" alt="3D Clay Robot Self-Healing Illustration">
+            </div>
+          </div>
+        </div>
+
+        <aside class="speaker-notes" style="display:none;">
+          <p><strong>[Slide 3 발표자 대본]</strong></p>
+          <p>이 다이어그램이 아키텍처의 핵심입니다. 왼쪽의 전통적 방식에서는 모든 과정에 사람이 개입해 병목이 발생했습니다.</p>
+          <p>우측의 귀여운 찰흙 로봇 일러스트처럼, 바이브 코딩 에이전트는 파일 시스템과 셸을 직접 다루며 에러가 나면 스스로 트레이스백을 읽어 코드를 고치는 '자가 치유(Self-Healing)' 루프를
+            돕니다. 인간은 시스템 상단에서 목표를 제시하고 최종 검증만 수행합니다.</p>
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           Slide 4: 기저 기술 해체 (4대 컴포넌트)
+           =================================================================== -->
+      <section class="slide" id="slide-4">
+        <div class="slide-header">
+          <span class="slide-tag">FOUNDATIONAL TECH</span>
+          <h2 class="slide-title">기저 기술 해체: 에이전트를 지탱하는 4대 컴포넌트</h2>
+          <p class="slide-subtitle">"단순 텍스트 생성을 넘어 온전한 '자율 소프트웨어 합성'을 가능케 한 4대 축"</p>
+        </div>
+
+        <div class="content-grid-2x2">
+          <div class="clay-card">
+            <div style="font-size:14px; color:var(--accent-mint); font-weight:800; margin-bottom:8px;">01. CONTEXT
+              ENGINE</div>
+            <h3 style="font-size:22px; font-weight:800; color:#fff; margin-bottom:10px;">문맥 큐레이터</h3>
+            <ul style="font-size:15px; color:var(--text-secondary); line-height:1.7; padding-left:18px;">
+              <li>AST(추상 구문 트리), Git 히스토리 자동 인덱싱</li>
+              <li>1M~2M 대형 컨텍스트 윈도우 인메모리 탑재</li>
+              <li>RAG 단편 검색을 넘어 프로젝트 전체 일관성 유지</li>
+            </ul>
+          </div>
+
+          <div class="clay-card">
+            <div style="font-size:14px; color:var(--accent-blue); font-weight:800; margin-bottom:8px;">02. REASONING
+              CORE</div>
+            <h3 style="font-size:22px; font-weight:800; color:#fff; margin-bottom:10px;">심층 추론 엔진</h3>
+            <ul style="font-size:15px; color:var(--text-secondary); line-height:1.7; padding-left:18px;">
+              <li>Chain-of-Thought (CoT) 다단계 계획 수립</li>
+              <li>요구사항 ➔ 아키텍처 ➔ 파일별 구현 단위 자율 분해</li>
+              <li>단순 패턴 매칭을 탈피한 복합 의존성 및 엣지 케이스 처리</li>
+            </ul>
+          </div>
+
+          <div class="clay-card">
+            <div style="font-size:14px; color:var(--accent-orange); font-weight:800; margin-bottom:8px;">03. EXECUTION
+              HARNESS</div>
+            <h3 style="font-size:22px; font-weight:800; color:#fff; margin-bottom:10px;">실행 도구 제어기</h3>
+            <ul style="font-size:15px; color:var(--text-secondary); line-height:1.7; padding-left:18px;">
+              <li>MCP (Model Context Protocol) 표준 연동</li>
+              <li>가상 샌드박스 터미널, 패키지 관리자 직접 제어</li>
+              <li>텍스트 생성을 넘어 실제 빌드 및 단위 테스트 자율 구동</li>
+            </ul>
+          </div>
+
+          <div class="clay-card">
+            <div style="font-size:14px; color:var(--accent-purple); font-weight:800; margin-bottom:8px;">04.
+              SELF-HEALING LOOP</div>
+            <h3 style="font-size:22px; font-weight:800; color:#fff; margin-bottom:10px;">자가 치유 루프</h3>
+            <ul style="font-size:15px; color:var(--text-secondary); line-height:1.7; padding-left:18px;">
+              <li>런타임 stderr / stdout 표준 에러 스트림 모델로 역주입</li>
+              <li>컴파일 에러 및 린트 오류 1~3회 무인 자율 교정</li>
+              <li>사소한 오타 및 문법 에러로 인한 개발자 피로도 90% 제거</li>
+            </ul>
+          </div>
+        </div>
+
+        <aside class="speaker-notes" style="display:none;">
+          <p><strong>[Slide 4 발표자 대본]</strong></p>
+          <p>왜 2025~2026년에 와서야 바이브 코딩이 가능해졌을까요? 4가지 기술이 결합했기 때문입니다.</p>
+          <p>전체 코드베이스를 한 번에 조망하는 컨텍스트 엔진, 복잡한 설계도를 그리는 추론 코어, 안전하게 셸과 도구를 실행하는 MCP 하네스, 그리고 에러를 스스로 수정하는 자가 치유 루프입니다. 이
+            4개가 맞물려 실질적인 '자율 개발'이 완성되었습니다.</p>
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           Slide 5: 정량 벤치마크 (SWE-bench & ROI)
+           =================================================================== -->
+      <section class="slide" id="slide-5">
+        <div class="slide-header">
+          <span class="slide-tag">BENCHMARKS & ROI</span>
+          <h2 class="slide-title">정량 벤치마크: 생산성 혁신과 토큰 경제학</h2>
+          <p class="slide-subtitle">"SWE-bench Verified 68% 달성 및 10~30배의 압도적 ROI"</p>
+        </div>
+
+        <div class="content-grid-2col">
+          <div class="clay-card">
+            <h3 style="font-size:20px; font-weight:800; color:#fff; margin-bottom:14px;">SWE-bench Verified 버그 해결률 (%)
+            </h3>
+
+            <div class="benchmark-display">
+              <div class="benchmark-bar-group">
+                <div class="bar-pill bar-2023" data-height="30px">6%</div>
+                <div class="bar-label">2023 초기 (Copilot)</div>
+              </div>
+              <div class="benchmark-bar-group">
+                <div class="bar-pill bar-2024" data-height="140px">45%</div>
+                <div class="bar-label">2024 말 (Sonnet 3.5)</div>
+              </div>
+              <div class="benchmark-bar-group">
+                <div class="bar-pill bar-2026" data-height="220px">68%</div>
+                <div class="bar-label">2026 (추론 에이전트)</div>
+              </div>
+            </div>
+
+            <div
+              style="display:flex; justify-content:space-between; margin-top:20px; border-top:1px solid rgba(255,255,255,0.08); padding-top:16px;">
+              <div>
+                <div style="font-size:13px; color:var(--text-muted);">신규 기능 개발 시간</div>
+                <div style="font-size:24px; font-weight:800; color:var(--accent-mint);">70~85% 절감</div>
+              </div>
+              <div>
+                <div style="font-size:13px; color:var(--text-muted);">보일러플레이트 작성</div>
+                <div style="font-size:24px; font-weight:800; color:var(--accent-blue);">90% 이상 절감</div>
+              </div>
+              <div>
+                <div style="font-size:13px; color:var(--text-muted);">투자 수익률 (ROI)</div>
+                <div style="font-size:24px; font-weight:800; color:var(--accent-yellow);">10x ~ 30x+</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:center; align-items:center;">
+            <div class="clay-image-frame blue-glow" style="height:100%; max-height:480px;">
+              <img src="assets/clay_growth_chart.jpg" alt="3D Clay Growth Chart Illustration">
+            </div>
+          </div>
+        </div>
+
+        <aside class="speaker-notes" style="display:none;">
+          <p><strong>[Slide 5 발표자 대본]</strong></p>
+          <p>SWE-bench 지표를 보십시오. 실제 깃허브 오픈소스 버그를 해결하는 능력이 3년 만에 6%에서 68%로 수직 상승했습니다. 우측의 찰흙 탑처럼 실력이 쑥쑥 자라났습니다.</p>
+          <p>실제 현업에서도 신규 기능 프로토타이핑 시간이 80% 가까이 줄었습니다. 엔지니어 1시간 인건비 대비 단돈 몇 달러의 API 비용으로 수시간의 작업을 끝내기 때문에, 정량적 ROI는 10배에서
+            30배에 달합니다.</p>
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           Slide 6: 리스크 진단 (4대 위험)
+           =================================================================== -->
+      <section class="slide" id="slide-6">
+        <div class="slide-header">
+          <span class="slide-tag"
+            style="background:rgba(239,68,68,0.15); color:var(--accent-red); border-color:rgba(239,68,68,0.3);">CRITICAL
+            RISKS</span>
+          <h2 class="slide-title">리스크 진단: 엔터프라이즈 환경에서의 4대 치명적 위험</h2>
+          <p class="slide-subtitle">"통제 없는 바이브 코딩은 '빛의 속도로 기술 부채를 양산'한다"</p>
+        </div>
+
+        <div class="content-grid-2col">
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="clay-card risk-card">
+              <div class="risk-title">01. 기술 부채의 초고속 누적 (Spaghetti Debt)</div>
+              <p class="risk-desc">AI는 당장 동작하는 지름길을 택해 전역 변수 남발, 모듈 간 결합도(Coupling) 급증을 초래합니다.</p>
+            </div>
+
+            <div class="clay-card risk-card">
+              <div class="risk-title">02. 맥락 표류 및 환각 연쇄 (Context Drift)</div>
+              <p class="risk-desc">대화가 길어지면 초기 아키텍처 규칙을 망각하고, 임시방편(Monkey Patch) 코드로 구조를 왜곡합니다.</p>
+            </div>
+
+            <div class="clay-card risk-card">
+              <div class="risk-title">03. 공급망 공격 & 시크릿 유출 (CVEs)</div>
+              <p class="risk-desc">가짜 패키지를 지어내는 '패키지 환각'을 통한 악성코드 침투 위험 및 API Key 하드코딩 빈발.</p>
+            </div>
+
+            <div class="clay-card risk-card">
+              <div class="risk-title">04. 인지적 단절 (Cognitive Disconnect)</div>
+              <p class="risk-desc">코드가 블랙박스화되어 장애 발생 시 원인 규명 및 평균 복구 시간(MTTR)이 폭증합니다.</p>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:center; align-items:center;">
+            <div class="clay-image-frame" style="border-color:rgba(239,68,68,0.3); height:100%; max-height:480px;">
+              <img src="assets/clay_spaghetti_risk.jpg" alt="3D Clay Spaghetti Risk Illustration">
+            </div>
+          </div>
+        </div>
+
+        <aside class="speaker-notes" style="display:none;">
+          <p><strong>[Slide 6 발표자 대본]</strong></p>
+          <p>그러나 우리는 장밋빛 환상만을 보아서는 안 됩니다. 우측의 엉켜버린 찰흙 스파게티처럼, 통제되지 않은 바이브 코딩은 큰 문제를 부릅니다.</p>
+          <p>AI는 가장 손쉬운 지름길을 택하기 때문에 스파게티 코드를 빛의 속도로 양산합니다. 또한 긴 대화 속에서 환각이 꼬리를 물고, 가짜 라이브러리를 설치하거나 시크릿을 노출하는 보안 사고가
+            발생합니다. 무엇보다 개발자가 코드를 이해하지 못해 장애 시 서비스 복구가 마비되는 인지적 단절이 가장 치명적입니다.</p>
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           Slide 7: 가드레일 아키텍처 (3단계 파이프라인)
+           =================================================================== -->
+      <section class="slide" id="slide-7">
+        <div class="slide-header">
+          <span class="slide-tag">GUARDRAIL ARCHITECTURE</span>
+          <h2 class="slide-title">가드레일 아키텍처: 3단계 방어 파이프라인</h2>
+          <p class="slide-subtitle">"자유로운 바이브 코딩을 허용하되, 배포 게이트는 기계적으로 통제한다"</p>
+        </div>
+
+        <div class="content-grid-3col">
+          <div class="clay-card">
+            <div style="font-size:14px; font-weight:800; color:var(--accent-mint); margin-bottom:8px;">PHASE 01</div>
+            <h3 style="font-size:24px; font-weight:800; color:#fff; margin-bottom:12px;">개발 단계 통제</h3>
+            <div
+              style="background:rgba(255,255,255,0.04); padding:16px; border-radius:14px; margin-bottom:14px; font-size:15px; color:#e2e8f0; line-height:1.6;">
+              <strong>.cursorrules / CLAUDE.md</strong><br>
+              • 아키텍처 규칙 및 컨벤션 강제<br>
+              • 허용/금지 라이브러리 지정<br>
+              • 컴포넌트 150줄 제한
+            </div>
+            <p style="font-size:14px; color:var(--text-secondary);">에이전트가 코드를 쓰기 전부터 시스템의 울타리를 명확히 규정합니다.</p>
+          </div>
+
+          <div class="clay-card blue-glow">
+            <div style="font-size:14px; font-weight:800; color:var(--accent-blue); margin-bottom:8px;">PHASE 02</div>
+            <h3 style="font-size:24px; font-weight:800; color:#fff; margin-bottom:12px;">자동화 가드레일</h3>
+            <div
+              style="background:rgba(255,255,255,0.04); padding:16px; border-radius:14px; margin-bottom:14px; font-size:15px; color:#e2e8f0; line-height:1.6;">
+              <strong>Pre-commit & CI/CD Pipeline</strong><br>
+              • 정적 코드 린팅 (AST 분석)<br>
+              • TDD 단위/E2E 테스트 통과<br>
+              • SAST & 시크릿 유출 스캔
+            </div>
+            <p style="font-size:14px; color:var(--text-secondary);">인간의 눈이 닿기 전, 기계적 테스트 슈트가 코드의 무결성을 검증합니다.</p>
+          </div>
+
+          <div class="clay-card">
+            <div style="font-size:14px; font-weight:800; color:var(--accent-purple); margin-bottom:8px;">PHASE 03</div>
+            <h3 style="font-size:24px; font-weight:800; color:#fff; margin-bottom:12px;">프로덕션 게이트</h3>
+            <div
+              style="background:rgba(255,255,255,0.04); padding:16px; border-radius:14px; margin-bottom:14px; font-size:15px; color:#e2e8f0; line-height:1.6;">
+              <strong>Human-in-the-Loop (HITL)</strong><br>
+              • 시니어 아키텍트 PR 심층 리뷰<br>
+              • 비즈니스 도메인 적합성 평가<br>
+              • 카나리(Canary) 점진적 배포
+            </div>
+            <p style="font-size:14px; color:var(--text-secondary);">최종 승인 도장은 반드시 인간 엔지니어의 통제 하에 둡니다.</p>
+          </div>
+        </div>
+
+        <aside class="speaker-notes" style="display:none;">
+          <p><strong>[Slide 7 발표자 대본]</strong></p>
+          <p>그렇다면 이 리스크를 어떻게 제어할 것인가? 바로 이 3단계 파이프라인입니다.</p>
+          <p>1단계에서 규칙 파일로 에이전트에게 가이드라인을 주고, 2단계에서 커밋과 PR 시 린터, 테스트 슈트, 보안 스캐너가 자동으로 무결성을 검증합니다. 그리고 마지막 3단계에서 인간 아키텍트가
+            최종 승인해야만 프로덕션에 나갈 수 있습니다.</p>
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           Slide 8: 실전 4대 방어선 상세 전략 (Deep Dive)
+           =================================================================== -->
+      <section class="slide" id="slide-8">
+        <div class="slide-header">
+          <span class="slide-tag">ENTERPRISE DEFENSE</span>
+          <h2 class="slide-title">실전 4대 방어선 상세 전략 (Deep Dive)</h2>
+          <p class="slide-subtitle">"프로덕션 레벨 품질을 담보하는 4가지 구체적 엔지니어링 실천 규약"</p>
+        </div>
+
+        <div class="content-grid-4col">
+          <div class="clay-card">
+            <div style="font-size:13px; font-weight:800; color:var(--accent-mint); margin-bottom:6px;">제1방어선</div>
+            <h4 style="font-size:18px; font-weight:800; color:#fff; margin-bottom:10px;">룰셋 표준화</h4>
+            <p style="font-size:14px; color:var(--text-secondary); line-height:1.6;">
+              <code>.cursorrules</code>, <code>CLAUDE.md</code>로 상태 관리 패턴, 의존성 규칙, 모듈 크기를 사전에 엄격히 제한.
+            </p>
+          </div>
+
+          <div class="clay-card">
+            <div style="font-size:13px; font-weight:800; color:var(--accent-blue); margin-bottom:6px;">제2방어선</div>
+            <h4 style="font-size:18px; font-weight:800; color:#fff; margin-bottom:10px;">TDD-First 검증</h4>
+            <p style="font-size:14px; color:var(--text-secondary); line-height:1.6;">
+              "코드 구현 전 반드시 테스트 코드를 먼저 작성하라" ➔ 100% 테스트 통과로 논리적 무오류성 입증.
+            </p>
+          </div>
+
+          <div class="clay-card">
+            <div style="font-size:13px; font-weight:800; color:var(--accent-orange); margin-bottom:6px;">제3방어선</div>
+            <h4 style="font-size:18px; font-weight:800; color:#fff; margin-bottom:10px;">CI/CD 정적/보안</h4>
+            <p style="font-size:14px; color:var(--text-secondary); line-height:1.6;">
+              Snyk(라이브러리 취약점), GitGuardian(API Key 유출 차단), SonarQube(코드 복잡도) 자동 차단.
+            </p>
+          </div>
+
+          <div class="clay-card">
+            <div style="font-size:13px; font-weight:800; color:var(--accent-purple); margin-bottom:6px;">제4방어선</div>
+            <h4 style="font-size:18px; font-weight:800; color:#fff; margin-bottom:10px;">마이크로 커밋</h4>
+            <p style="font-size:14px; color:var(--text-secondary); line-height:1.6;">
+              한 번에 수십 개 파일 수정 금지. 1개 기능 = 1개 원자적 Git 커밋으로 언제든 즉각 롤백 보장.
+            </p>
+          </div>
+        </div>
+
+        <aside class="speaker-notes" style="display:none;">
+          <p><strong>[Slide 8 발표자 대본]</strong></p>
+          <p>실무에서 즉시 적용할 수 있는 4대 방어선입니다.</p>
+          <p>첫째, 룰셋 파일로 컴포넌트 크기와 규칙을 강제합니다. 둘째, TDD입니다. 에이전트에게 테스트 코드를 먼저 짜게 하고 이를 통과하게 만들면 환각을 원천 차단합니다. 셋째, CI/CD에서
+            취약점과 API Key 노출을 기계적으로 차단합니다. 넷째, 기능 하나당 1개의 깃 커밋을 남겨 언제든 안전하게 이전 상태로 되돌릴 수 있는 원자적 변경을 유지해야 합니다.</p>
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           Slide 9: 단계별 도입 로드맵 (3단계 확산)
+           =================================================================== -->
+      <section class="slide" id="slide-9">
+        <div class="slide-header">
+          <span class="slide-tag">ADOPTION ROADMAP</span>
+          <h2 class="slide-title">엔터프라이즈 도입 로드맵: 3단계 점진적 확산</h2>
+          <p class="slide-subtitle">"도메인 리스크 수준에 맞춘 안전하고 점진적인 채택 전략"</p>
+        </div>
+
+        <div class="content-grid-3col">
+          <div class="clay-card">
+            <div
+              style="display:inline-block; padding:4px 10px; background:rgba(52,211,153,0.15); color:var(--accent-mint); border-radius:12px; font-size:12px; font-weight:700; margin-bottom:10px;">
+              1단계: LOW RISK</div>
+            <h3 style="font-size:22px; font-weight:800; color:#fff; margin-bottom:12px;">즉시 전면 도입</h3>
+            <ul
+              style="font-size:14px; color:var(--text-secondary); line-height:1.7; padding-left:18px; margin-bottom:16px;">
+              <li>사내 업무 자동화 스크립트</li>
+              <li>데이터 시각화 & 대시보드 마이크로 툴</li>
+              <li>디자인 시스템 UI 프로토타이핑</li>
+            </ul>
+            <div style="font-size:13px; color:var(--accent-mint); font-weight:700;">권장: Cursor, Bolt.new, Claude 3.5
+              Sonnet</div>
+          </div>
+
+          <div class="clay-card blue-glow">
+            <div
+              style="display:inline-block; padding:4px 10px; background:rgba(96,165,250,0.15); color:var(--accent-blue); border-radius:12px; font-size:12px; font-weight:700; margin-bottom:10px;">
+              2단계: MEDIUM RISK</div>
+            <h3 style="font-size:22px; font-weight:800; color:#fff; margin-bottom:12px;">가드레일 적용 도입</h3>
+            <ul
+              style="font-size:14px; color:var(--text-secondary); line-height:1.7; padding-left:18px; margin-bottom:16px;">
+              <li>고객용 웹 서비스 프론트엔드</li>
+              <li>백엔드 표준 CRUD API 보일러플레이트</li>
+              <li>레거시 코드 리팩토링 & 단위 테스트 작성</li>
+            </ul>
+            <div style="font-size:13px; color:var(--accent-blue); font-weight:700;">필수: .cursorrules + CI/CD 자동화 게이트
+            </div>
+          </div>
+
+          <div class="clay-card">
+            <div
+              style="display:inline-block; padding:4px 10px; background:rgba(239,68,68,0.15); color:var(--accent-red); border-radius:12px; font-size:12px; font-weight:700; margin-bottom:10px;">
+              3단계: HIGH / CRITICAL</div>
+            <h3 style="font-size:22px; font-weight:800; color:#fff; margin-bottom:12px;">보수적 제한 도입</h3>
+            <ul
+              style="font-size:14px; color:var(--text-secondary); line-height:1.7; padding-left:18px; margin-bottom:16px;">
+              <li>금융 결제 및 코어 트랜잭션 엔진</li>
+              <li>대규모 분산 동기화 인프라</li>
+              <li>개인정보 및 인증/보안 모듈</li>
+            </ul>
+            <div style="font-size:13px; color:var(--accent-red); font-weight:700;">필수: 정형 검증(Formal) + 이중 시니어 리뷰</div>
+          </div>
+        </div>
+
+        <aside class="speaker-notes" style="display:none;">
+          <p><strong>[Slide 9 발표자 대본]</strong></p>
+          <p>기업 도입은 3단계로 가야 합니다.</p>
+          <p>1단계는 사내 자동화 툴이나 프로토타입 같은 저위험 영역에 전면 도입하여 생산성을 극대화합니다. 2단계는 가드레일을 장착한 뒤 웹 UI나 일반 CRUD API에 적용합니다. 결제나 개인정보
+            같은 3단계 핵심 영역은 AI에게 초안만 맡기고, 반드시 시니어 아키텍트의 정밀 리뷰와 정형 검증을 병행하는 보수적 접근을 고수해야 합니다.</p>
+        </aside>
+      </section>
+
+      <!-- ===================================================================
+           Slide 10: 결론 (차세대 엔지니어링 패러다임)
+           =================================================================== -->
+      <section class="slide" id="slide-10">
+        <div class="slide-header">
+          <span class="slide-tag">FINAL TAKEAWAY</span>
+          <h2 class="slide-title">결론: 차세대 엔지니어링 패러다임</h2>
+          <p class="slide-subtitle">"Don't just vibe. Direct with engineering rigor."</p>
+        </div>
+
+        <div class="content-grid-2col">
+          <div class="clay-card mint-glow" style="display:flex; flex-direction:column; justify-content:center;">
+            <div style="font-size:14px; font-weight:800; color:var(--accent-mint); margin-bottom:14px;">KEY MOTTO</div>
+            <blockquote style="font-size:32px; font-weight:900; line-height:1.35; color:#ffffff; margin-bottom:20px;">
+              "단순히 분위기만 타지 마십시오.<br>
+              <span style="color:var(--accent-mint);">엔지니어링의 엄밀함</span>으로<br>
+              지휘하십시오."
+            </blockquote>
+            <p style="font-size:16px; color:var(--text-secondary); line-height:1.6;">
+              바이브 코딩은 타이핑이라는 저수준 노동을 걷어내고, 인간을 '시스템 설계와 검증'이라는 엔지니어링의 본질로 인도하는 혁신입니다.
+            </p>
+          </div>
+
+          <div class="clay-card">
+            <h3 style="font-size:20px; font-weight:800; color:#fff; margin-bottom:20px;">엔지니어링 리더를 위한 3대 제언</h3>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div
+                style="background:rgba(255,255,255,0.04); padding:16px; border-radius:16px; border:1px solid rgba(255,255,255,0.08);">
+                <div style="font-size:15px; font-weight:700; color:var(--accent-mint);">1. 패러다임의 불가역성</div>
+                <div style="font-size:14px; color:var(--text-secondary); margin-top:4px;">어셈블리에서 C로 넘어갔듯, 자연어로 코딩하는 시대는
+                  되돌릴 수 없습니다.</div>
+              </div>
+
+              <div
+                style="background:rgba(255,255,255,0.04); padding:16px; border-radius:16px; border:1px solid rgba(255,255,255,0.08);">
+                <div style="font-size:15px; font-weight:700; color:var(--accent-blue);">2. 핵심 경쟁력 재정의</div>
+                <div style="font-size:14px; color:var(--text-secondary); margin-top:4px;">문법 암기보다 '시스템 경계 설정(명세)'과 '자동화
+                  검증(테스트)'이 진정한 실력입니다.</div>
+              </div>
+
+              <div
+                style="background:rgba(255,255,255,0.04); padding:16px; border-radius:16px; border:1px solid rgba(255,255,255,0.08);">
+                <div style="font-size:15px; font-weight:700; color:var(--accent-yellow);">3. 속도와 신뢰성의 조화</div>
+                <div style="font-size:14px; color:var(--text-secondary); margin-top:4px;">생성 속도는 AI에게 일임하고, 신뢰성은 엔지니어링
+                  가드레일로 통제하십시오.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="speaker-notes" style="display:none;">
+          <p><strong>[Slide 10 발표자 대본]</strong></p>
+          <p>마지막 결론입니다. 어셈블리어에서 C언어로, C언어에서 파이썬으로 발전했듯, 자연어로 소프트웨어를 합성하는 바이브 코딩은 되돌릴 수 없는 역사의 흐름입니다.</p>
+          <p>이제 엔지니어의 실력은 '코드를 얼마나 빨리 치느냐'가 아니라 'AI에게 시스템의 경계를 얼마나 정확히 지시하고, 그 결과물을 얼마나 날카롭게 검증해내느냐'에 달려 있습니다. 속도는 AI의
+            바이브에 맡기되, 품질은 우리 엔지니어의 엄밀함으로 완성해야 합니다. 경청해 주셔서 감사합니다.</p>
+        </aside>
+      </section>
+
+    </div><!-- /.slides-deck -->
+
+    <!-- ===================================================================
+         HUD Controls (Bottom Bar)
+         =================================================================== -->
+    <div class="hud-controls">
+      <div class="slide-counter">
+        <span id="current-slide-num">01</span> / <span id="total-slide-num">10</span>
+      </div>
+      <button id="btn-prev" class="hud-btn" title="이전 슬라이드 (◀)">◀ 이전</button>
+      <button id="btn-next" class="hud-btn" title="다음 슬라이드 (▶ / Space)">다음 ▶</button>
+      <button id="btn-notes" class="hud-btn" title="발표자 대본 (S)">🎙️ 대본 (S)</button>
+      <button id="btn-overview" class="hud-btn" title="모아보기 (O / Esc)">📑 모아보기 (O)</button>
+      <button id="btn-fullscreen" class="hud-btn" title="전체화면 (F)">⛶ 전체화면 (F)</button>
+    </div>
+
+    <!-- ===================================================================
+         Speaker Notes Drawer (Press S)
+         =================================================================== -->
+    <div id="speaker-drawer" class="speaker-drawer">
+      <div class="drawer-header">
+        <div class="drawer-title">🎙️ 발표자 대본 (SPEAKER NOTES)</div>
+        <button id="drawer-close" class="drawer-close">&times;</button>
+      </div>
+      <div id="speaker-content" class="drawer-content">
+        <!-- Content injected dynamically via script.js -->
+      </div>
+    </div>
+
+    <!-- ===================================================================
+         Overview Grid Modal (Press O / Esc)
+         =================================================================== -->
+    <div id="overview-modal" class="overview-modal">
+      <div class="overview-header">
+        <h2 style="font-size:28px; font-weight:800; color:#fff;">📑 10장 슬라이드 전체 모아보기</h2>
+        <button id="overview-close" class="drawer-close">&times;</button>
+      </div>
+      <div id="overview-grid" class="overview-grid">
+        <!-- Thumbnails injected dynamically via script.js -->
+      </div>
+    </div>
+
+  </div><!-- /#presentation-wrapper -->
+
+  <script src="script.js"></script>
+</body>
+
+</html>

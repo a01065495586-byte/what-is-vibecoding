@@ -1,0 +1,698 @@
+/* ==========================================================================
+   Vibe Coding Presentation - Handwritten Sketch Note & 16:9 Presentation Engine
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Nanum+Pen+Script&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  /* Color Palette - Chalkboard & Fluorescent Highlighter Notes */
+  --bg-main: #141722;
+  --bg-gradient: radial-gradient(circle at 50% 30%, #1d2232 0%, #0f121a 100%);
+  --clay-card-bg: #1f2537;
+  --clay-card-border: rgba(255, 255, 255, 0.16);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  /* Highlighter Accent Colors */
+  --accent-mint: #34d399;
+  --accent-blue: #60a5fa;
+  --accent-orange: #fb923c;
+  --accent-purple: #c084fc;
+  --accent-yellow: #facc15;
+  --accent-red: #f87171;
+
+  /* Hand-drawn Shadows */
+  --clay-shadow-outer: 6px 8px 20px rgba(0, 0, 0, 0.4);
+  --clay-shadow-inner: inset 2px 2px 6px rgba(255, 255, 255, 0.08);
+  --clay-shadow-glow-mint: 0 0 20px rgba(52, 211, 153, 0.25);
+  --clay-shadow-glow-blue: 0 0 20px rgba(96, 165, 250, 0.25);
+  
+  /* Typography - Korean Handwriting First */
+  --font-hand: 'Gaegu', 'Nanum Pen Script', 'Ink Free', 'Segoe Print', cursive, sans-serif;
+  --font-pen: 'Nanum Pen Script', 'Gaegu', cursive;
+  --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg-main);
+  background-image: var(--bg-gradient);
+  font-family: var(--font-hand), var(--font-sans);
+  color: var(--text-primary);
+  user-select: none;
+}
+
+/* ==========================================================================
+   16:9 Presentation Viewport Scaler
+   ========================================================================== */
+#presentation-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: center center;
+  transform: translate(-50%, -50%) scale(1);
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+  border-radius: 16px;
+  background-color: #151823;
+  /* Notebook / Graph Paper Grid Texture */
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ==========================================================================
+   Progress Bar & HUD Controls
+   ========================================================================== */
+.progress-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 100;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 10%;
+  background: linear-gradient(90deg, var(--accent-mint), var(--accent-yellow), var(--accent-blue));
+  border-radius: 0 4px 4px 0;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.6);
+}
+
+.hud-controls {
+  position: absolute;
+  bottom: 24px;
+  right: 36px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 100;
+}
+
+.hud-btn {
+  background: #242a3b;
+  border: 1.5px dashed var(--clay-card-border);
+  color: var(--text-primary);
+  padding: 10px 18px;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  font-family: var(--font-hand);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--clay-shadow-outer);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  background: #2d354a;
+  border-color: var(--accent-mint);
+}
+
+.hud-btn:active {
+  transform: translateY(1px);
+}
+
+.slide-counter {
+  background: rgba(15, 17, 23, 0.85);
+  padding: 8px 18px;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  font-family: var(--font-hand);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent-mint);
+  border: 1.5px dashed rgba(52, 211, 153, 0.4);
+}
+
+/* ==========================================================================
+   Slide Deck Structure & Transitions
+   ========================================================================== */
+.slides-deck {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px 80px 80px 80px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.98);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  z-index: 10;
+}
+
+/* Global Handwriting Rules for Slide Typography */
+.slide h1, .slide h2, .slide h3, .slide h4, .slide h5, .slide h6 {
+  font-family: var(--font-hand), cursive !important;
+  letter-spacing: 0.5px;
+}
+
+.slide p, .slide li, .slide span:not(.font-mono), .slide label, .slide div:not(.code-box) {
+  font-family: var(--font-hand), var(--font-sans);
+}
+
+.slide p {
+  font-size: 18px;
+}
+
+/* ==========================================================================
+   Slide Typography & Headers (Handwritten Look)
+   ========================================================================== */
+.slide-header {
+  margin-bottom: 26px;
+}
+
+.slide-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  background: rgba(96, 165, 250, 0.14);
+  color: var(--accent-blue);
+  font-family: var(--font-hand) !important;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  border: 1.5px dashed rgba(96, 165, 250, 0.45);
+  box-shadow: 2px 3px 8px rgba(0,0,0,0.25);
+}
+
+.slide-title {
+  font-family: var(--font-hand), cursive !important;
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  color: #ffffff;
+  margin-bottom: 8px;
+  display: inline-block;
+  text-decoration: underline wavy var(--accent-mint) 3px;
+  text-underline-offset: 8px;
+}
+
+.slide-subtitle {
+  font-family: var(--font-pen), var(--font-hand), cursive !important;
+  font-size: 26px;
+  font-weight: 400;
+  color: #cbd5e1;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   Hand-Drawn Sketch Cards & Components
+   ========================================================================== */
+.clay-card {
+  background: var(--clay-card-bg);
+  /* Hand-drawn organic border shape */
+  border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  box-shadow: var(--clay-shadow-outer), var(--clay-shadow-inner);
+  padding: 28px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  position: relative;
+}
+
+/* Natural slight tilts for notes/cards */
+.content-grid-2col > div:nth-child(1),
+.content-grid-3col > div:nth-child(odd),
+.content-grid-4col > div:nth-child(odd) {
+  transform: rotate(-0.4deg);
+}
+
+.content-grid-2col > div:nth-child(2),
+.content-grid-3col > div:nth-child(even),
+.content-grid-4col > div:nth-child(even) {
+  transform: rotate(0.4deg);
+}
+
+.clay-card:hover {
+  transform: translateY(-5px) rotate(0deg) scale(1.01) !important;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.clay-card.mint-glow {
+  border-color: rgba(52, 211, 153, 0.4);
+  box-shadow: var(--clay-shadow-outer), var(--clay-shadow-inner), var(--clay-shadow-glow-mint);
+}
+
+.clay-card.blue-glow {
+  border-color: rgba(96, 165, 250, 0.4);
+  box-shadow: var(--clay-shadow-outer), var(--clay-shadow-inner), var(--clay-shadow-glow-blue);
+}
+
+/* ==========================================================================
+   Slide Content Grid Layouts
+   ========================================================================== */
+.content-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  flex: 1;
+  align-items: stretch;
+}
+
+.content-grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  flex: 1;
+}
+
+.content-grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  flex: 1;
+}
+
+.content-grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 24px;
+  flex: 1;
+}
+
+/* ==========================================================================
+   Slide Specific Styles
+   ========================================================================== */
+
+/* Slide 1 - Title Hero */
+.hero-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  gap: 50px;
+}
+
+.hero-text-side {
+  flex: 1.2;
+}
+
+.hero-visual-side {
+  flex: 0.9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clay-image-frame {
+  width: 100%;
+  max-width: 540px;
+  height: 480px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65);
+  border: 8px solid #ffffff;
+  background: #1c202d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transform: rotate(1.2deg);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.clay-image-frame:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.clay-image-frame::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 110px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.45);
+  border-left: 2px dashed rgba(0, 0, 0, 0.2);
+  border-right: 2px dashed rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.clay-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(52, 211, 153, 0.16);
+  color: var(--accent-mint);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  font-family: var(--font-hand);
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  border: 1.5px dashed rgba(52, 211, 153, 0.5);
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.hero-title {
+  font-family: var(--font-hand), cursive !important;
+  font-size: 68px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #ffffff 60%, var(--accent-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: underline wavy var(--accent-mint) 4px;
+  text-underline-offset: 12px;
+}
+
+.hero-desc {
+  font-family: var(--font-hand), var(--font-sans);
+  font-size: 28px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin-bottom: 36px;
+}
+
+.hero-meta-box {
+  display: flex;
+  gap: 20px;
+}
+
+.meta-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px 22px;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  border: 1.5px dashed rgba(255, 255, 255, 0.18);
+}
+
+.meta-item .label {
+  font-family: var(--font-hand);
+  font-size: 16px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.meta-item .val {
+  font-family: var(--font-hand);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+/* Code & Architecture Boxes */
+.code-box {
+  background: #12151e;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(255, 255, 255, 0.15);
+  padding: 22px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.6;
+  color: #a5b4fc;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.code-box .highlight {
+  background: rgba(250, 204, 21, 0.35);
+  color: #fef08a !important;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* Benchmark Bars */
+.benchmark-display {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 280px;
+  padding: 20px 10px;
+  background: #141822;
+  border: 1.5px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  margin-top: 20px;
+}
+
+.benchmark-bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.bar-pill {
+  width: 90px;
+  border-radius: 16px 16px 8px 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10px;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 24px;
+  color: #111827;
+  transition: height 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: var(--clay-shadow-inner);
+}
+
+.bar-2023 {
+  height: 30px;
+  background: #64748b;
+  color: #ffffff;
+}
+
+.bar-2024 {
+  height: 140px;
+  background: var(--accent-orange);
+}
+
+.bar-2026 {
+  height: 220px;
+  background: linear-gradient(180deg, var(--accent-mint), #10b981);
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.4);
+}
+
+.bar-label {
+  font-family: var(--font-hand);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* Metric Stats Cards */
+.stat-number {
+  font-size: 52px;
+  font-weight: 700;
+  font-family: var(--font-hand) !important;
+  color: var(--accent-mint);
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 20px;
+  font-family: var(--font-hand);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Risk Badges */
+.risk-card {
+  border-left: 6px dashed var(--accent-red);
+}
+
+.risk-card .risk-title {
+  font-size: 26px;
+  font-weight: 700;
+  font-family: var(--font-hand) !important;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.risk-card .risk-desc {
+  font-size: 18px;
+  font-family: var(--font-hand), var(--font-sans);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Speaker Notes Drawer (Press S)
+   ========================================================================== */
+.speaker-drawer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  background: rgba(18, 21, 30, 0.96);
+  backdrop-filter: blur(20px);
+  border-top: 3px dashed var(--accent-mint);
+  box-shadow: 0 -15px 40px rgba(0, 0, 0, 0.7);
+  z-index: 200;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 30px 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+.speaker-drawer.open {
+  transform: translateY(0);
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.drawer-title {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: var(--font-hand) !important;
+  color: var(--accent-mint);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.drawer-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 28px;
+  cursor: pointer;
+  font-family: var(--font-hand);
+}
+
+.drawer-content {
+  font-size: 22px;
+  line-height: 1.7;
+  color: #f1f5f9;
+  overflow-y: auto;
+  font-family: var(--font-hand), var(--font-sans);
+}
+
+/* ==========================================================================
+   Overview Grid Modal (Press O or Esc)
+   ========================================================================== */
+.overview-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 12, 17, 0.96);
+  backdrop-filter: blur(16px);
+  z-index: 300;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  padding: 60px 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.overview-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.overview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 24px;
+  flex: 1;
+}
+
+.overview-thumb {
+  background: #1c2232;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  border: 1.5px dashed rgba(255, 255, 255, 0.18);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.overview-thumb:hover {
+  transform: scale(1.05) rotate(-1deg);
+  border-color: var(--accent-mint);
+  box-shadow: 0 10px 25px rgba(52, 211, 153, 0.3);
+}
+
+.overview-thumb.current {
+  border-color: var(--accent-blue);
+  background: #252d42;
+  border-style: solid;
+}
+
+.thumb-num {
+  font-family: var(--font-hand);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent-mint);
+}
+
+.thumb-title {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--font-hand) !important;
+  color: #ffffff;
+  line-height: 1.3;
+}
